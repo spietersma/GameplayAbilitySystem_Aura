@@ -17,8 +17,6 @@ AAuraCharacterBase::AAuraCharacterBase()
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//TEST TEST
 	
 }
 
