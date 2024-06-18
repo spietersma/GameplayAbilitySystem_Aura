@@ -15,11 +15,10 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
-	if(ThisActor != nullptr)
+	if (ThisActor != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(1, 3, FColor::Red, TEXT("Got something"));
 	}
-
 }
 
 void AAuraPlayerController::BeginPlay()
@@ -28,9 +27,13 @@ void AAuraPlayerController::BeginPlay()
 	// Assert - Will crash if not set
 	check(AuraContext);
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	Subsystem->AddMappingContext(AuraContext, 0);
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+		GetLocalPlayer());
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+
 
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
@@ -39,8 +42,6 @@ void AAuraPlayerController::BeginPlay()
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
-	
-	
 }
 
 void AAuraPlayerController::SetupInputComponent()
@@ -55,12 +56,12 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2d InputAxisVector = InputActionValue.Get<FVector2d>();
 	const FRotator Rotation = GetControlRotation();
-	const FRotator YawRotation (0.f, Rotation.Yaw, 0.f );
+	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
 
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-	if(APawn* ControlledPawn = GetPawn<APawn>())
+	if (APawn* ControlledPawn = GetPawn<APawn>())
 	{
 		// Forward (W/D Keys) is from the angle of top down -> ergo Y is forwards and backwards, X is left and right
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
@@ -72,8 +73,8 @@ void AAuraPlayerController::CursorTrace()
 {
 	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-	if(!CursorHit.bBlockingHit) return;
-	
+	if (!CursorHit.bBlockingHit) return;
+
 	LastActor = ThisActor;
 	ThisActor = CursorHit.GetActor();
 
@@ -89,28 +90,26 @@ void AAuraPlayerController::CursorTrace()
 	 */
 
 
-	
-	if(LastActor == nullptr) 
+	if (LastActor == nullptr)
 	{
-		if(ThisActor != nullptr)  
+		if (ThisActor != nullptr)
 		{
 			ThisActor->HighlightActor();
 		}
 	}
 	else
 	{
-		if(ThisActor == nullptr)
+		if (ThisActor == nullptr)
 		{
 			LastActor->UnhighlightActor();
 		}
 		else
 		{
-			if(LastActor != ThisActor)
+			if (LastActor != ThisActor)
 			{
 				LastActor->UnhighlightActor();
 				ThisActor->HighlightActor();
 			}
 		}
 	}
-	
 }

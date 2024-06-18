@@ -6,6 +6,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "AuraCharacter.generated.h"
 
+class AAuraHUD;
 /**
  * 
  */
@@ -21,4 +22,5 @@ public:
 
 private:
 	void InitAbilityActorInfo();
+	
 };
