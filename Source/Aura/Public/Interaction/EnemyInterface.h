@@ -16,8 +16,8 @@ class UEnemyInterface : public UInterface
 class AURA_API IEnemyInterface
 {
 	GENERATED_BODY()
-	
+
+public:
 	virtual void HighlightActor() = 0;
 	virtual void UnhighlightActor() = 0;
-public:
 };
