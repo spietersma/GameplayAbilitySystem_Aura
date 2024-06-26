@@ -36,7 +36,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 
 	// Spec handle created to contain our TSubclassOf parameter - contains an EffectSpec TSharedPtr  
 	const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(
-		GameplayEffectClass, 1.0f, EffectContextHandle);
+		GameplayEffectClass, ActorLevel, EffectContextHandle);
 
 	//Effect spec handle data is a TSharedPtr that contains an EffectSpec, using .Get() to get the raw pointer and dereferenced to satisfy function req 
 	const FActiveGameplayEffectHandle ActiveGameplayEffectHandle = TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
